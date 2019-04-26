@@ -6,37 +6,46 @@ import java.util.List;
 public class FileRetriever {
 	//selects files in preparation for modifiers 
 	File fileName;
+	public String PS;
 	
+	//path separator
 	//File fileLoc = new File(fileName);
 	public static final String directory = "C:\\Users";
+
 	
 	public FileRetriever(String name) throws IOException {
+		checkOS();
 		
 		createFolder(name);
-		System.out.println(fileName.getParent()+"/"+getFileExtension(name));
+		//System.out.println(fileName.getParent()+PS+getFileExtension(name));
 	
-		moveFile(name, (fileName.getParent()+"/"+getFileExtension(name)));
+		//moveFile(name, (fileName.getParent()+"PS"+getFileExtension(name)));
 		massMove(fileName);
+	}
+	public void checkOS() {
+		if(System.getProperty("os.name").equals("Mac OS X")){
+		
+			PS = "/";
+		}
+			else {
+			PS="\\";
+		}
 	}
 	
 	public String getFileExtension(String name) {
-		String extName = null;
-		int extLoc;
-		for(int x=0;x<name.length()-1;x++) {
-			if(name.substring(x,x+1).equals(".")) {
-				extName=name.substring(x+1);
+		if(name.indexOf(".")>0) {
 			
-			}
-		}
-		return extName;
+		
+		return(name.substring(1+name.lastIndexOf(".")));}
+		return "";
 	}
 	
 	public void createFolder(String name) {
 		fileName=new File(name);	
 		//fileName is the original input
-		String parent = fileName.getParent()+"/";
+		String parent = fileName.getParent();
 		//gets parent directory
-		String folderName = parent + getFileExtension(name);
+		String folderName = parent + getFileExtension(name)+PS;
 		//generates foldername based on parent directory and file extension name
 		System.out.println (folderName);
 		new File(folderName).mkdirs();
@@ -45,10 +54,10 @@ public class FileRetriever {
 	
 	public void moveFile(String original, String newLoc) {
 		File select= new File(original);
-		System.out.println((newLoc+select.getName()));
+		System.out.println((newLoc+PS+select.getName()));
 		System.out.println(select.getName());
 	
-		select.renameTo(new File(newLoc+"/"+select.getName()));
+		select.renameTo(new File(newLoc+PS+select.getName()));
 		
 		
 	}
@@ -81,14 +90,24 @@ public class FileRetriever {
 		    if (file.isFile()) {
 		        results.add(file.getName());
 		    }
-		}
-		for(int x=0;x<results.size();x++) {
-			if(getFileExtension(results.get(x))==getFileExtension(directory.getName()));
-			moveFile(files[x].getPath(),fileName.getParent()+"/"+getFileExtension(files[x].getPath()));
-		}
-		System.out.println(results);
-	}
+		    if(getFileExtension(file.getName()).equals(getFileExtension(directory.getName()))){
+		    	moveFile(file.getPath(),file.getParent()+PS+getFileExtension(file.getName()));
+		    //	System.out.println(file.getParent()+PS+getFileExtension(file.getName()));
 
+		    }
+		}
+
+//		for(int x=0;x<results.size();x++) {
+//			if(getFileExtension(directory.getName()).equals(getFileExtension(files[x].getName()))) {
+
+//			System.out.println(files[x].getPath());
+//			System.out.println(fileName.getParent()+PS+getFileExtension(files[x].getName()));
+//		}
+//		System.out.println(results);}
+	}
+	
+	
+	
 	
 		
 	

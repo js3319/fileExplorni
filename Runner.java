@@ -13,6 +13,8 @@ String input;
 String change;
 Desktop desktop;
 File file;
+
+
 public Runner() {
 	EventQueue.invokeLater(new Runnable() {
 		@Override
@@ -71,12 +73,15 @@ public Runner() {
 		//put methods here
 		getUserInput();
 		//checkInput();
-		try {
-			FileRetriever finder= new FileRetriever(input);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+			try {
+				FileRetriever finder= new FileRetriever(input);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+
 	}
 	
 	public void checkInput() {
