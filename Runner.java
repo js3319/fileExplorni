@@ -49,12 +49,12 @@ public Runner() {
 //			e1.printStackTrace();
 //		}
 		File file = new File (input);
-		try {
-			desktop.open(file);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			desktop.open(file);
+////		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		System.out.println(input);
 	//	System.out.println(desktop);
 		if(file.isDirectory()) {

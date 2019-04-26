@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class FileRetriever {
 	//selects files in preparation for modifiers 
 	File fileName;
@@ -13,6 +16,7 @@ public class FileRetriever {
 		System.out.println(fileName.getParent()+"/"+getFileExtension(name));
 	
 		moveFile(name, (fileName.getParent()+"/"+getFileExtension(name)));
+		massMove(fileName);
 	}
 	
 	public String getFileExtension(String name) {
@@ -41,24 +45,48 @@ public class FileRetriever {
 	
 	public void moveFile(String original, String newLoc) {
 		File select= new File(original);
-		//System.out.println((newLoc+"/"+original));
-		
+		System.out.println((newLoc+select.getName()));
+		System.out.println(select.getName());
 	
-		select.renameTo(new File(newLoc+actualFileName(original)));
+		select.renameTo(new File(newLoc+"/"+select.getName()));
+		
 		
 	}
-	public String actualFileName(String sample) {
-		int count = 2;
-		for(int x=sample.length();x>0;x--) {
-			if (sample.substring(x-1,x).equals("/")){
-				count--;
-				if(count ==0) {
-					return sample.substring(x);
-				}
-			
-			}
+//	public String actualFileName(String sample) {
+//		int count = 1;
+//		for(int x=sample.length();x>0;x--) {
+//			if (sample.substring(x-1,x).equals("/")){
+//				count--;
+//				if(count ==0) {
+//					return "/"+sample.substring(x);
+//				}
+//			
+//			}
+//		}
+//		return null;
+//	}
+	
+	public String actualFileName(File file) {
+		return file.getName();
+	}
+	
+	public void massMove(File directory) {
+		List<String> results = new ArrayList<String>();
+
+
+		File[] files = new File(directory.getParent()).listFiles();
+		//If this pathname does not denote a directory, then listFiles() returns null. 
+
+		for (File file : files) {
+		    if (file.isFile()) {
+		        results.add(file.getName());
+		    }
 		}
-		return null;
+		for(int x=0;x<results.size();x++) {
+			if(getFileExtension(results.get(x))==getFileExtension(directory.getName()));
+			moveFile(files[x].getPath(),fileName.getParent()+"/"+getFileExtension(files[x].getPath()));
+		}
+		System.out.println(results);
 	}
 
 	
